@@ -1,0 +1,75 @@
+# Abstract cross-platform keybinding specification
+# This file is transformed into:
+#  - xremap-macos.yml (Linux) via scripts/generate-bindings.sh
+#  - karabiner-macos.json (macOS) via scripts/generate-bindings.sh
+#
+# Schema:
+# meta:
+#   name: Human readable profile name
+# mappings:
+#   - group: Logical grouping label
+#     description: Optional text
+#     entries:
+#       - from: Key combo (abstract)
+#         to:   Target action (abstract)
+#         comment: Optional note
+#         platforms: [linux, mac] (omit for all)
+#
+# Abstract key naming conventions:
+#   SUPER = Super/Command key
+#   CTRL  = Control key
+#   CAPS  = Caps Lock physical key
+# Target actions use semantic tokens where possible (COPY, PASTE, CLOSE_WINDOW, ARROW_LEFT, etc.)
+# The generator maps these to xremap/karabiner syntax.
+
+meta:
+  name: 'Universal macOS-like bindings'
+
+mappings:
+  - group: 'Modifier remap'
+    entries:
+      - from: CAPS
+        to: CTRL
+        comment: Caps Lock behaves as Control
+  - group: 'Standard shortcuts'
+    entries:
+      - from: SUPER+c
+        to: COPY
+      - from: SUPER+v
+        to: PASTE
+      - from: SUPER+x
+        to: CUT
+      - from: SUPER+s
+        to: SAVE
+      - from: SUPER+z
+        to: UNDO
+      - from: SUPER+SHIFT+z
+        to: REDO
+      - from: SUPER+a
+        to: SELECT_ALL
+      - from: SUPER+q
+        to: CLOSE_WINDOW
+  - group: 'Navigation (Emacs style)'
+    entries:
+      - from: CTRL+a
+        to: LINE_START
+      - from: CTRL+e
+        to: LINE_END
+      - from: CTRL+h
+        to: DELETE_BACKWARD
+      - from: CTRL+j
+        to: ARROW_DOWN
+      - from: CTRL+k
+        to: ARROW_UP
+      - from: CTRL+l
+        to: ARROW_RIGHT
+  - group: 'Vim arrows (uppercase HJKL with Control)'
+    entries:
+      - from: CTRL+H
+        to: ARROW_LEFT
+      - from: CTRL+J
+        to: ARROW_DOWN
+      - from: CTRL+K
+        to: ARROW_UP
+      - from: CTRL+L
+        to: ARROW_RIGHT

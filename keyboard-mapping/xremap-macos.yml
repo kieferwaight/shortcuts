@@ -1,0 +1,32 @@
+modmap:
+  - name: 'CapsLock to Control'
+    remap:
+      CapsLock: Control_L
+
+keymap:
+  - name: 'macOS style shortcuts'
+    remap:
+      Super-c: Ctrl-c # Copy
+      Super-v: Ctrl-v # Paste
+      Super-x: Ctrl-x # Cut
+      Super-s: Ctrl-s # Save
+      Super-a: Ctrl-a # Select All
+      Super-z: Ctrl-z # Undo
+      Super-Shift-z: Ctrl-Shift-z # Redo
+      Super-q: Alt-F4 # Close window (fallback if GNOME mapping absent)
+
+  - name: 'Emacs/Vim navigation with Caps (Control)'
+    remap:
+      Control-a: Home # Beginning of line
+      Control-e: End # End of line
+      Control-h: BackSpace # Delete backward
+      Control-j: Down # Down arrow
+      Control-k: Up # Up arrow
+      Control-l: Right # Right arrow
+
+  - name: 'Vim hjkl with Caps mapped to Control'
+    remap:
+      Control-H: Left
+      Control-J: Down
+      Control-K: Up
+      Control-L: Right

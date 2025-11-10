@@ -1,0 +1,127 @@
+# Low Level Classifications for Planning
+
+EVENT SOURCES - Known Definitions of Event Sources
+
+- physical keyboards
+- virtual keyboards
+- software based event emitters (that might be our own SYSTEM SERVICES)
+
+INTERFACES - Static Modules generated from our yaml configuration files
+
+- Karabiner-Elements EventKit
+  - Sub-modules:
+    - Derived Key Normalizers generated from our yaml configuration files
+- xmodmap (Linux) & Gnome Tweaks
+  - Install scripts generated from our yaml configuration files
+- Off the shelf tools such as Hammerspoon (MacOS) or AutoHotkey (Windows)
+  - Custom scripts generated from our yaml configuration files
+- Hammerspoon (MacOS)
+  - Custom scripts generated from our yaml configuration files
+
+SYSTEM SERVICES - Software components generated from our yaml configuration files
+
+- Keyboard Repeat Rate Manager
+- MacOS Keyboard Repeat Rate Manager
+- Variable Storage Manager
+  Terminating conditions, stateful variable management, etc.
+  Logical gates for complex conditions
+
+CONFIGURATION LAYER - Yaml Configuration Files
+
+- Key Mappings
+- Complex Modifications
+- System Services Configurations
+  This is where our main logic lives via the yaml configuration files.
+
+SYSTEM SERVICES - Software components generated from our yaml configuration files
+
+- Keyboard Repeat Rate Manager
+- MacOS Keyboard Repeat Rate Manager
+- Variable Storage Manager
+  Terminating conditions, stateful variable management, etc.
+
+INTERFACE - Static Modules generated from our yaml configuration files
+
+- Karabiner-Elements EventKit
+- Evdev (Linux)
+- Windows Raw Input
+- MacOS IOKit
+- Custom scripts (e.g. AutoHotkey, Hammerspoon)
+
+DELIVERY LAYER - Known Definitions of Event Delivery Mechanisms
+
+- operating system event injection
+- application specific event injection
+- virtual device drivers
+
+## High Level Flow
+
+EVENT SOURCES -> INTERFACES -> MAPPER -> SYSTEM SERVICES -> INTERFACES -> DELIVERY LAYER
+
+## Explanation
+
+We have to define interfaces for each device, middleware, and delivery mechanism we want to support.
+We have to define translation layers (mappers) between each interface and our internal representation.
+We have to define system services that can modify events based on stateful logic.
+We have to define translation layers (mappers) between our internal representation and each delivery mechanism.
+We have to define delivery mechanisms for each target operating system and application.
+
+## Buckets of Classifications
+
+From a configuration file we generate is the initial "pipeline"
+
+which triggers a few more pipelines to generate the actual deliverables:
+
+These go through a build cycle
+
+- Install scripts for interface layers (e.g. xmodmap, gnome tweaks)
+- Configuration files for system services (e.g. Karabiner-Elements json files)
+- Custom scripts for off the shelf tools (e.g. Hammerspoon, AutoHotkey
+
+A lot of this is static generation from yaml configuration files.
+As well as static data definitions for known event sources and delivery mechanisms.
+Arrays of lookup tables for key mappings and complex modifications. Our yaml config
+is just counting on our interface / contract to do the right thing with it.
+
+Our internally generated interfaces also follow those contracts.
+
+# Refined Buckets Of Classifications:
+
+- Interfaces
+  - Event Definitions
+  - Target Definitions
+- Lookup Tables
+  - Key Mappings
+  - Complex Modifications
+- Configurations
+  - Key Mappings
+  - Complex Modifications
+  - System Services Configurations
+- Services
+  - Functions
+    - Tranformers
+    - State
+  - Prebuilt Modules
+- Pipelines (Gitea/Github Actions/CI)
+  - Build Scripts
+  - Install Scripts
+  - Deployment Scripts
+  - Teardown Scripts
+- Build Artifacts
+
+# Conceptual Directory Structure
+
+/Root
+/Shortcuts
+/src - data - methods - classes - interface - scripts
+~ config
+! vendor > dist
+
+# Abstract Classification
+
+/ = Structural
+
+- = Internal
+  ~ = Variable
+  ! = External
+  > = Generated
