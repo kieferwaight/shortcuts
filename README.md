@@ -1,5 +1,7 @@
 # Keyboard Shortcuts Manager
 
+[![Build and Test](https://github.com/kieferwaight/shortcuts/actions/workflows/build.yml/badge.svg)](https://github.com/kieferwaight/shortcuts/actions/workflows/build.yml)
+
 A unified system for managing keyboard shortcuts and key mappings on Ubuntu/GNOME, documented as executable runbooks.
 
 ## Quick Start
