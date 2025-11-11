@@ -17,6 +17,11 @@ apt-get install -y \
 apt-get install -y \
   x11-xserver-utils
 
+# Window management helpers for tiling layer
+apt-get install -y \
+  wmctrl \
+  xdotool
+
 # Optional: GNOME settings tools (usually pre-installed on GNOME)
 apt-get install -y \
   dconf-cli

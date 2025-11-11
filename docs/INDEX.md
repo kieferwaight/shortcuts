@@ -95,6 +95,15 @@ Universal Cmd+C/V/X/Z/S/A and Caps+H/J/K/L navigation across apps via xremap.
 
 ---
 
+### 7. [Ctrl+W Tiling Layer](runbooks/control-w-tiling.md)
+**Category**: Window Management | **Tool**: xremap + wmctrl
+
+Hold Ctrl+W then press H/J/K/L to tile the active window (left/right/top/bottom). Ctrl+W+F for full screen geometry.
+
+**State**: ENABLED or DISABLED
+
+---
+
 ## Quick Reference
 
 ### Apply All (Recommended)

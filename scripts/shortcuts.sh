@@ -14,6 +14,7 @@ declare -A TOGGLES=(
     ["caps-to-control"]="src/interface/xmodmap/caps-to-control.sh"
     ["super-cmd-q"]="src/interface/gsettings/super-cmd-q-quit.sh"
     ["macos-bindings"]="src/interface/xremap/universal-macos-bindings.sh"
+    ["control-w-tiling"]="src/interface/xremap/control-w-tiling.sh"
 )
 
 show_help() {
@@ -38,6 +39,7 @@ Available toggles:
     caps-to-control   - Map Caps Lock to Control
     super-cmd-q       - Map Super+Q to close window (like Cmd+Q)
     macos-bindings    - macOS-like universal bindings via xremap (Cmd+C/V/X/Z/S/A, Caps+HJKL)
+    control-w-tiling  - Ctrl+W layer for window tiling (H/J/K/L halves, F full)
 
 Examples:
     $0 list

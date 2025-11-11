@@ -404,3 +404,17 @@ For issues with the toggle scripts:
 - Check state files in `~/.config/`
 - Verify prerequisites (xmodmap, gsettings)
 - Run status commands to debug
+
+### control-w-tiling
+Hold Control+W and press H/J/K/L to tile the active window (left/right/top/bottom). Press Control+W+F for full screen geometry.
+
+- Action: xremap hotkeys launching wmctrl-based tiling helper
+- Persistence: Background process (user session)
+- Reversible: Yes
+
+Usage:
+```sh
+./scripts/shortcuts.sh on control-w-tiling   # start tiling layer
+./scripts/shortcuts.sh off control-w-tiling  # stop tiling layer
+```
+Requirements: xremap, wmctrl, xdpyinfo (X11). See runbook for details.
