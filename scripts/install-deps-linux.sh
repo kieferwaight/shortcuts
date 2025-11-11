@@ -15,7 +15,8 @@ apt-get install -y \
 
 # Optional: xmodmap and X11 utilities (usually pre-installed)
 apt-get install -y \
-  x11-xserver-utils
+  x11-xserver-utils \
+  x11-xkb-utils
 
 # Window management helpers for tiling layer
 apt-get install -y \

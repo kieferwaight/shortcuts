@@ -150,31 +150,33 @@ build_karabiner() {
   # Helper to append a rule
   add_rule() {
     local title="$1"; local from_combo="$2"; local to_action="$3"
-    local key; key=$(echo "$from_combo" | awk -F'+' '{print $NF}')
-    key=$(k_key "$key")
-    # Extract modifiers as-is (no tolower), map each through k_mod, then join with commas and lowercase if needed
-    local mods; mods=$(
-      echo "$from_combo" | awk -F'+' '{
-        for(i=1;i<NF;i++) printf (i>1?",":"") $i
-      }' | awk -F',' '{
-        for(i=1;i<=NF;i++) {
-          cmd = "k_mod \"" $i "\""
-          cmd | getline mapped
-          close(cmd)
-          printf (i>1?",":"") tolower(mapped)
-        }
-        print ""
-      }'
-    )
+    local key_part="${from_combo##*+}"  # last segment after + or whole string if none
+    local key; key=$(k_key "$key_part")
+    local mods_array=()
+    if [[ "$from_combo" == *+* ]]; then
+      local prefix="${from_combo%+$key_part}"  # everything before last +
+      IFS='+' read -r -a raw_mods <<< "$prefix"
+      for m in "${raw_mods[@]}"; do
+        mapped=$(k_mod "$m")
+        [[ -n "$mapped" ]] && mods_array+=("$mapped")
+      done
+    fi
+    # Build a JSON array string of modifiers for mandatory
+    local mods_json
+    if (( ${#mods_array[@]} > 0 )); then
+      mods_json=$(printf '%s\n' "${mods_array[@]}" | jq -R . | jq -s .)
+    else
+      mods_json='[]'
+    fi
     local to_json; to_json=$(k_to "$to_action")
-    local rule=$(jq -n --arg key "$key" --arg mods "$mods" --argjson to "$to_json" '{
+    local rule=$(jq -n --arg key "$key" --argjson mandatory "$mods_json" --argjson to "$to_json" '{
       "description": $key,
       "manipulators": [
         {
           "type": "basic",
           "from": {
             "key_code": $key,
-            "modifiers": {"mandatory": ($mods|split(",")|map(select(length>0)))}
+            "modifiers": {"mandatory": $mandatory}
           },
           "to": [($to)]
         }

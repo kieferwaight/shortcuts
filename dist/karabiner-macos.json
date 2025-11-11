@@ -9,13 +9,17 @@
           "from": {
             "key_code": "c",
             "modifiers": {
-              "mandatory": ["super"]
+              "mandatory": [
+                "command"
+              ]
             }
           },
           "to": [
             {
               "key_code": "c",
-              "modifiers": ["command"]
+              "modifiers": [
+                "command"
+              ]
             }
           ]
         }
@@ -29,13 +33,17 @@
           "from": {
             "key_code": "v",
             "modifiers": {
-              "mandatory": ["super"]
+              "mandatory": [
+                "command"
+              ]
             }
           },
           "to": [
             {
               "key_code": "v",
-              "modifiers": ["command"]
+              "modifiers": [
+                "command"
+              ]
             }
           ]
         }
@@ -49,13 +57,17 @@
           "from": {
             "key_code": "x",
             "modifiers": {
-              "mandatory": ["super"]
+              "mandatory": [
+                "command"
+              ]
             }
           },
           "to": [
             {
               "key_code": "x",
-              "modifiers": ["command"]
+              "modifiers": [
+                "command"
+              ]
             }
           ]
         }
@@ -69,13 +81,17 @@
           "from": {
             "key_code": "s",
             "modifiers": {
-              "mandatory": ["super"]
+              "mandatory": [
+                "command"
+              ]
             }
           },
           "to": [
             {
               "key_code": "s",
-              "modifiers": ["command"]
+              "modifiers": [
+                "command"
+              ]
             }
           ]
         }
@@ -89,13 +105,17 @@
           "from": {
             "key_code": "z",
             "modifiers": {
-              "mandatory": ["super"]
+              "mandatory": [
+                "command"
+              ]
             }
           },
           "to": [
             {
               "key_code": "z",
-              "modifiers": ["command"]
+              "modifiers": [
+                "command"
+              ]
             }
           ]
         }
@@ -109,13 +129,19 @@
           "from": {
             "key_code": "z",
             "modifiers": {
-              "mandatory": ["super", "shift"]
+              "mandatory": [
+                "command",
+                "shift"
+              ]
             }
           },
           "to": [
             {
               "key_code": "z",
-              "modifiers": ["command", "shift"]
+              "modifiers": [
+                "command",
+                "shift"
+              ]
             }
           ]
         }
@@ -129,13 +155,17 @@
           "from": {
             "key_code": "a",
             "modifiers": {
-              "mandatory": ["super"]
+              "mandatory": [
+                "command"
+              ]
             }
           },
           "to": [
             {
               "key_code": "a",
-              "modifiers": ["command"]
+              "modifiers": [
+                "command"
+              ]
             }
           ]
         }
@@ -149,13 +179,17 @@
           "from": {
             "key_code": "q",
             "modifiers": {
-              "mandatory": ["super"]
+              "mandatory": [
+                "command"
+              ]
             }
           },
           "to": [
             {
               "key_code": "q",
-              "modifiers": ["command"]
+              "modifiers": [
+                "command"
+              ]
             }
           ]
         }
@@ -169,7 +203,9 @@
           "from": {
             "key_code": "a",
             "modifiers": {
-              "mandatory": ["ctrl"]
+              "mandatory": [
+                "control"
+              ]
             }
           },
           "to": [
@@ -188,7 +224,9 @@
           "from": {
             "key_code": "e",
             "modifiers": {
-              "mandatory": ["ctrl"]
+              "mandatory": [
+                "control"
+              ]
             }
           },
           "to": [
@@ -200,14 +238,16 @@
       ]
     },
     {
-      "description": "Ctrl+h (Emacs backspace)",
+      "description": "h",
       "manipulators": [
         {
           "type": "basic",
           "from": {
             "key_code": "h",
             "modifiers": {
-              "mandatory": ["ctrl"]
+              "mandatory": [
+                "control"
+              ]
             }
           },
           "to": [
@@ -226,7 +266,9 @@
           "from": {
             "key_code": "j",
             "modifiers": {
-              "mandatory": ["ctrl"]
+              "mandatory": [
+                "control"
+              ]
             }
           },
           "to": [
@@ -245,7 +287,9 @@
           "from": {
             "key_code": "k",
             "modifiers": {
-              "mandatory": ["ctrl"]
+              "mandatory": [
+                "control"
+              ]
             }
           },
           "to": [
@@ -264,7 +308,9 @@
           "from": {
             "key_code": "l",
             "modifiers": {
-              "mandatory": ["ctrl"]
+              "mandatory": [
+                "control"
+              ]
             }
           },
           "to": [
@@ -283,7 +329,9 @@
           "from": {
             "key_code": "h",
             "modifiers": {
-              "mandatory": ["ctrl"]
+              "mandatory": [
+                "control"
+              ]
             }
           },
           "to": [
@@ -302,7 +350,9 @@
           "from": {
             "key_code": "j",
             "modifiers": {
-              "mandatory": ["ctrl"]
+              "mandatory": [
+                "control"
+              ]
             }
           },
           "to": [
@@ -321,7 +371,9 @@
           "from": {
             "key_code": "k",
             "modifiers": {
-              "mandatory": ["ctrl"]
+              "mandatory": [
+                "control"
+              ]
             }
           },
           "to": [
@@ -340,7 +392,9 @@
           "from": {
             "key_code": "l",
             "modifiers": {
-              "mandatory": ["ctrl"]
+              "mandatory": [
+                "control"
+              ]
             }
           },
           "to": [

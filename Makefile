@@ -24,7 +24,23 @@ install:
 
 install-mac:
 	@echo "Installing macOS dependencies..."
-	brew bundle install --file=vendor/Brewfile
+	@# Ensure Homebrew is available
+	@if ! command -v brew >/dev/null 2>&1; then \
+		echo "Homebrew not found. Installing..."; \
+		/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; \
+	fi
+	@# Resolve brew path (Apple Silicon and Intel)
+	@BREW_PATH="$$(command -v brew || true)"; \
+	if [ -z "$$BREW_PATH" ] && [ -x /opt/homebrew/bin/brew ]; then BREW_PATH=/opt/homebrew/bin/brew; fi; \
+	if [ -z "$$BREW_PATH" ] && [ -x /usr/local/bin/brew ]; then BREW_PATH=/usr/local/bin/brew; fi; \
+	if [ -z "$$BREW_PATH" ]; then echo "Error: brew not found after install"; exit 1; fi; \
+	echo "Using $$BREW_PATH"; \
+	if [ -f vendor/Brewfile ]; then \
+		"$$BREW_PATH" bundle --no-lock --file=vendor/Brewfile; \
+	else \
+		echo "Warning: vendor/Brewfile not found. Falling back to Brewfile"; \
+		"$$BREW_PATH" bundle --no-lock --file=Brewfile; \
+	fi
 	@echo "✓ macOS dependencies installed"
 	@echo ""
 	@echo "Next steps:"

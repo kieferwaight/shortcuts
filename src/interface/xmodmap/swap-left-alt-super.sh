@@ -7,23 +7,25 @@ set -e
 STATE_FILE="$HOME/.config/keyboard-mapping-swap-left-alt-super"
 
 apply_swap() {
-    xmodmap -e "remove mod1 = Alt_L"
-    xmodmap -e "remove mod4 = Super_L"
-    xmodmap -e "keycode 64 = Super_L"
-    xmodmap -e "keycode 133 = Alt_L"
-    xmodmap -e "add mod1 = Alt_L"
-    xmodmap -e "add mod4 = Super_L"
+    # Prefer XKB option (more reliable than xmodmap)
+    if command -v setxkbmap >/dev/null 2>&1; then
+        setxkbmap -option altwin:swap_lalt_lwin
+    else
+        echo "Error: setxkbmap not found; cannot apply swap reliably" >&2
+        exit 1
+    fi
     touch "$STATE_FILE"
-    echo "✓ Left Alt and Super keys are SWAPPED"
+    echo "✓ Left Alt and Super keys are SWAPPED (via XKB altwin:swap_lalt_lwin)"
 }
 
 remove_swap() {
-    xmodmap -e "remove mod1 = Alt_L"
-    xmodmap -e "remove mod4 = Super_L"
-    xmodmap -e "keycode 64 = Alt_L"
-    xmodmap -e "keycode 133 = Super_L"
-    xmodmap -e "add mod1 = Alt_L"
-    xmodmap -e "add mod4 = Super_L"
+    if command -v setxkbmap >/dev/null 2>&1; then
+        # Clear all options; if you have other options, reapply them afterwards
+        setxkbmap -option
+    else
+        echo "Error: setxkbmap not found; cannot remove swap reliably" >&2
+        exit 1
+    fi
     rm -f "$STATE_FILE"
     echo "✓ Left Alt and Super keys are NORMAL"
 }
