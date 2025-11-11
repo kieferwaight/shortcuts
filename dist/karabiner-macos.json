@@ -231,7 +231,7 @@
           },
           "to": [
             {
-              "key_code": "end"
+              "key_code": "CTRL+e"
             }
           ]
         }
@@ -357,7 +357,7 @@
           },
           "to": [
             {
-              "key_code": "down_arrow"
+              "key_code": "CTRL+J"
             }
           ]
         }
@@ -399,7 +399,7 @@
           },
           "to": [
             {
-              "key_code": "right_arrow"
+              "key_code": "CTRL+L"
             }
           ]
         }
