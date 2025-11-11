@@ -6,27 +6,18 @@ modmap:
 keymap:
   - name: 'macOS style shortcuts'
     remap:
-      Super-c: Ctrl-c
-      Super-v: Ctrl-v
-      Super-x: Ctrl-x
-      Super-s: Ctrl-s
-      Super-z: Ctrl-z
-      Super-Shift-z: Ctrl-Shift-z
-      Super-a: Ctrl-a
-      Super-q: Alt-F4
+      Super-c: SUPER+v
+      Super-x: SUPER+s
+      Super-z: SUPER+SHIFT+z
+      Super-a: SUPER+q
 
   - name: 'Emacs/Vim navigation with Caps (Control)'
     remap:
-      Ctrl-a: Home
-      Ctrl-e: End
-      Ctrl-h: BackSpace
-      Ctrl-j: Down
-      Ctrl-k: Up
-      Ctrl-l: Right
+      Ctrl-a: CTRL+e
+      Ctrl-h: CTRL+j
+      Ctrl-k: CTRL+l
 
   - name: 'Vim hjkl with Caps mapped to Control'
     remap:
-      Ctrl-H: Left
-      Ctrl-J: Down
-      Ctrl-K: Up
-      Ctrl-L: Right
+      Ctrl-H: CTRL+J
+      Ctrl-K: CTRL+L
