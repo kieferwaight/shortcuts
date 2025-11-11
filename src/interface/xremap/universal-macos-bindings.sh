@@ -6,7 +6,7 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIG_FILE="$SCRIPT_DIR/xremap-macos.yml"
+CONFIG_FILE="$SCRIPT_DIR/../../../dist/xremap-macos.yml"
 PID_FILE="$HOME/.config/xremap-macos.pid"
 STATE_FILE="$HOME/.config/keyboard-mapping-universal-macos-bindings"
 LOG_FILE="$HOME/.config/xremap-macos.log"
@@ -29,7 +29,7 @@ start_xremap() {
     nohup xremap "$CONFIG_FILE" >"$LOG_FILE" 2>&1 &
     echo $! > "$PID_FILE"
     sleep 0.2
-    if ps -p "$(cat "$PID_FILE" 2>/dev/null || echo 0)" >/dev/null 2>&1; then
+    if [ -f "$PID_FILE" ] && ps -p "$(cat "$PID_FILE")" >/dev/null 2>&1; then
         touch "$STATE_FILE"
         echo "✓ macOS-like universal bindings ENABLED (xremap running)"
     else

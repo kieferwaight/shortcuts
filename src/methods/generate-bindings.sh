@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 # Generate platform-specific remap configs from cross-platform-bindings.yml
 # - Outputs:
-#   - keyboard-mapping/xremap-macos.yml (Linux)
-#   - macos/karabiner-macos.json (macOS)
+#   - dist/xremap-macos.yml (Linux)
+#   - dist/karabiner-macos.json (macOS)
 
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-SRC="$ROOT_DIR/keyboard-mapping/cross-platform-bindings.yml"
-XREMAP_OUT="$ROOT_DIR/keyboard-mapping/xremap-macos.yml"
-KARABINER_DIR="$ROOT_DIR/macos"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+SRC="$ROOT_DIR/src/data/cross-platform-bindings.yml"
+XREMAP_OUT="$ROOT_DIR/dist/xremap-macos.yml"
+KARABINER_DIR="$ROOT_DIR/dist"
 KARABINER_OUT="$KARABINER_DIR/karabiner-macos.json"
 
 mkdir -p "$KARABINER_DIR"
@@ -149,9 +149,23 @@ build_karabiner() {
 
   # Helper to append a rule
   add_rule() {
-    local title="$1"; local from_combo="$2"; local to_action="$3"; local cond="$4"
-    local key; key=$(echo "$from_combo" | awk -F'+' '{print tolower($NF)}')
-    local mods; mods=$(echo "$from_combo" | awk -F"+" '{for(i=1;i<NF;i++) printf (i>1?",":"") tolower($i)}')
+    local title="$1"; local from_combo="$2"; local to_action="$3"
+    local key; key=$(echo "$from_combo" | awk -F'+' '{print $NF}')
+    key=$(k_key "$key")
+    # Extract modifiers as-is (no tolower), map each through k_mod, then join with commas and lowercase if needed
+    local mods; mods=$(
+      echo "$from_combo" | awk -F'+' '{
+        for(i=1;i<NF;i++) printf (i>1?",":"") $i
+      }' | awk -F',' '{
+        for(i=1;i<=NF;i++) {
+          cmd = "k_mod \"" $i "\""
+          cmd | getline mapped
+          close(cmd)
+          printf (i>1?",":"") tolower(mapped)
+        }
+        print ""
+      }'
+    )
     local to_json; to_json=$(k_to "$to_action")
     local rule=$(jq -n --arg key "$key" --arg mods "$mods" --argjson to "$to_json" '{
       "description": $key,

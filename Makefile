@@ -24,12 +24,12 @@ install:
 
 install-mac:
 	@echo "Installing macOS dependencies..."
-	brew bundle install
+	brew bundle install --file=vendor/Brewfile
 	@echo "✓ macOS dependencies installed"
 	@echo ""
 	@echo "Next steps:"
 	@echo "  - Run: make bindings"
-	@echo "  - Import macos/karabiner-macos.json in Karabiner-Elements"
+	@echo "  - Import dist/karabiner-macos.json in Karabiner-Elements"
 
 install-linux:
 	@echo "Installing Linux dependencies..."
@@ -37,26 +37,26 @@ install-linux:
 		echo "Error: Must run as root (use sudo make install-linux)"; \
 		exit 1; \
 	fi
-	./install-deps-linux.sh
+	./scripts/install-deps-linux.sh
 	@echo ""
 	@echo "Next steps:"
 	@echo "  - Run: make bindings"
-	@echo "  - Run: ./shortcuts.sh apply"
+	@echo "  - Run: ./scripts/shortcuts.sh apply"
 
 bindings:
 	@echo "Generating platform-specific binding configs..."
-	./scripts/generate-bindings.sh
+	./src/methods/generate-bindings.sh
 	@echo ""
 	@echo "Generated:"
-	@echo "  - keyboard-mapping/xremap-macos.yml (Linux)"
-	@echo "  - macos/karabiner-macos.json (macOS)"
+	@echo "  - dist/xremap-macos.yml (Linux)"
+	@echo "  - dist/karabiner-macos.json (macOS)"
 
 test:
 	@echo "Running validation tests..."
-	@bash -n scripts/generate-bindings.sh || (echo "✗ generate-bindings.sh syntax error"; exit 1)
-	@bash -n shortcuts.sh || (echo "✗ shortcuts.sh syntax error"; exit 1)
-	@bash -n install-deps-linux.sh || (echo "✗ install-deps-linux.sh syntax error"; exit 1)
-	@for script in keyboard-mapping/*.sh gnome-shortcuts/*.sh; do \
+	@bash -n src/methods/generate-bindings.sh || (echo "✗ generate-bindings.sh syntax error"; exit 1)
+	@bash -n scripts/shortcuts.sh || (echo "✗ shortcuts.sh syntax error"; exit 1)
+	@bash -n scripts/install-deps-linux.sh || (echo "✗ install-deps-linux.sh syntax error"; exit 1)
+	@for script in src/interface/*/*.sh; do \
 		bash -n "$$script" || (echo "✗ $$script syntax error"; exit 1); \
 	done
 	@echo "✓ All scripts have valid syntax"
@@ -68,6 +68,6 @@ test:
 
 clean:
 	@echo "Cleaning generated files..."
-	rm -f keyboard-mapping/xremap-macos.yml
-	rm -f macos/karabiner-macos.json
+	rm -f dist/xremap-macos.yml
+	rm -f dist/karabiner-macos.json
 	@echo "✓ Cleaned"

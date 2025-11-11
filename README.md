@@ -9,29 +9,29 @@ A unified system for managing keyboard shortcuts and key mappings on Ubuntu/GNOM
 ### macOS
 
 ```bash
-brew bundle install
+brew bundle --file=vendor/Brewfile
 ```
 
 ### Linux (Ubuntu/Debian)
 
 ```bash
-sudo ./install-deps-linux.sh
+sudo ./scripts/install-deps-linux.sh
 ```
 
-See [DEPENDENCIES.md](DEPENDENCIES.md) for detailed installation instructions.
+See [vendor/DEPENDENCIES.md](vendor/DEPENDENCIES.md) for detailed installation instructions.
 
 Apply the recommended macOS-like configuration:
 
 ```sh {"description":"Apply recommended keyboard configuration","name":"quick-apply"}
 cd /home/sysadmin/Projects/system/shortcuts
-./shortcuts.sh apply
+./scripts/shortcuts.sh apply
 ```
 
 Check current status:
 
 ```sh {"description":"Check status of all keyboard settings","name":"quick-status"}
 cd /home/sysadmin/Projects/system/shortcuts
-./shortcuts.sh list
+./scripts/shortcuts.sh list
 ```
 
 ## 📚 Runbook Documentation
@@ -92,11 +92,8 @@ Configure Super+Tab for application switching and Super+` for window switching.
 ```sh
 shortcuts/
 ├── README.md                             # This file
-├── DEPENDENCIES.md                       # Dependency installation guide
-├── Brewfile                              # macOS dependencies (Homebrew)
-├── Makefile                              # Common tasks (install, bindings, test)
-├── install-deps-linux.sh                 # Linux dependency installer
-├── shortcuts.sh                          # Master control script
+├── WARP.md                               # AI integration notes
+├── Makefile                              # Common tasks (install, bindings, test, clean)
 ├── docs/
 │   ├── INDEX.md                          # Runbook index
 │   └── runbooks/                         # Detailed runbook documentation
@@ -104,23 +101,30 @@ shortcuts/
 │       ├── disable-super-shortcuts.md
 │       ├── super-tab-switching.md
 │       ├── caps-to-control.md
-│       ├── super-cmd-q-quit.md
-│       ├── macos-bindings.md
-│       └── cross-platform-bindings.md
-├── keyboard-mapping/                     # Physical/remap scripts
-│   ├── cross-platform-bindings.yml       # Abstract binding spec (source of truth)
-│   ├── swap-left-alt-super.sh
-│   ├── caps-to-control.sh
-│   ├── universal-macos-bindings.sh       # xremap runner
-│   └── xremap-macos.yml                  # Generated xremap config (Linux)
-├── gnome-shortcuts/                      # GNOME shortcut scripts
-│   ├── disable-super-shortcuts.sh
-│   ├── super-tab-switching.sh
-│   └── super-cmd-q-quit.sh
+│       └── super-cmd-q-quit.md
+├── src/
+│   ├── data/
+│   │   └── cross-platform-bindings.yml   # Abstract binding spec (source of truth)
+│   ├── interface/
+│   │   ├── xmodmap/                      # Physical key remapping (session-only)
+│   │   │   ├── swap-left-alt-super.sh
+│   │   │   └── caps-to-control.sh
+│   │   ├── gsettings/                    # GNOME shortcuts (persistent)
+│   │   │   ├── disable-super-shortcuts.sh
+│   │   │   ├── super-tab-switching.sh
+│   │   │   └── super-cmd-q-quit.sh
+│   │   └── xremap/                       # Universal remapper (daemon)
+│   │       └── universal-macos-bindings.sh
+│   └── methods/
+│       └── generate-bindings.sh          # Generate platform configs from spec
 ├── scripts/
-│   └── generate-bindings.sh              # Generate platform configs from abstract spec
-└── macos/
-    ├── README.md                         # macOS setup instructions
+│   ├── shortcuts.sh                      # Master control script
+│   └── install-deps-linux.sh             # Linux dependency installer
+├── vendor/
+│   ├── Brewfile                          # macOS dependencies (Homebrew)
+│   └── DEPENDENCIES.md                   # Dependency installation guide
+└── dist/                                 # Generated configs (not in repo)
+    ├── xremap-macos.yml                  # Generated xremap config (Linux)
     └── karabiner-macos.json              # Generated Karabiner config (macOS)
 ```
 
@@ -138,7 +142,7 @@ States:
 Usage:
 
 ```sh {"description":"Toggle Alt/Super key swap","name":"toggle-swap-keys"}
-./shortcuts.sh toggle swap-alt-super
+./scripts/shortcuts.sh toggle swap-alt-super
 ```
 
 ### disable-super
@@ -153,7 +157,7 @@ States:
 Usage:
 
 ```sh {"description":"Toggle Super key shortcuts","name":"toggle-disable-super"}
-./shortcuts.sh toggle disable-super
+./scripts/shortcuts.sh toggle disable-super
 ```
 
 ### super-tab
@@ -168,7 +172,7 @@ States:
 Usage:
 
 ```sh {"description":"Toggle Super+Tab switching","name":"toggle-super-tab"}
-./shortcuts.sh toggle super-tab
+./scripts/shortcuts.sh toggle super-tab
 
 ### caps-to-control
 
@@ -182,7 +186,7 @@ States:
 Usage:
 
 ```sh
-./shortcuts.sh toggle caps-to-control
+./scripts/shortcuts.sh toggle caps-to-control
 ```
 
 ### super-cmd-q
@@ -197,7 +201,7 @@ States:
 Usage:
 
 ```sh
-./shortcuts.sh toggle super-cmd-q
+./scripts/shortcuts.sh toggle super-cmd-q
 ```
 
 ### macOS-bindings (xremap)
@@ -213,8 +217,8 @@ Provides:
 Usage:
 
 ```sh
-./shortcuts.sh on macos-bindings   # start xremap with provided config
-./shortcuts.sh off macos-bindings  # stop xremap
+./scripts/shortcuts.sh on macos-bindings   # start xremap with provided config
+./scripts/shortcuts.sh off macos-bindings  # stop xremap
 ```
 Note: Install xremap first. See runbook for instructions.
 ```
@@ -228,31 +232,31 @@ The `shortcuts.sh` script provides a unified interface:
 List all toggles with current status:
 
 ```sh {"description":"List all available toggles and their status","name":"list-toggles"}
-./shortcuts.sh list
+./scripts/shortcuts.sh list
 ```
 
 Apply recommended configuration (all three toggles ON):
 
 ```sh {"description":"Apply recommended macOS-like configuration","name":"apply-recommended"}
-./shortcuts.sh apply
+./scripts/shortcuts.sh apply
 ```
 
 Control individual toggles:
 
 ```sh {"description":"Turn on a specific toggle","name":"control-toggle-on"}
-./shortcuts.sh on swap-alt-super
+./scripts/shortcuts.sh on swap-alt-super
 ```
 
 ```sh {"description":"Turn off a specific toggle","name":"control-toggle-off"}
-./shortcuts.sh off disable-super
+./scripts/shortcuts.sh off disable-super
 ```
 
 ```sh {"description":"Toggle a specific setting","name":"control-toggle-toggle"}
-./shortcuts.sh toggle super-tab
+./scripts/shortcuts.sh toggle super-tab
 ```
 
 ```sh {"description":"Check status of a toggle","name":"control-toggle-status"}
-./shortcuts.sh status swap-alt-super
+./scripts/shortcuts.sh status swap-alt-super
 ```
 
 ## Recommended Configuration
@@ -276,7 +280,7 @@ The recommended setup creates a macOS-like keyboard experience:
 Apply it:
 
 ```sh {"description":"Apply complete macOS-like keyboard configuration","name":"apply-full-config"}
-./shortcuts.sh apply
+./scripts/shortcuts.sh apply
 ```
 
 ## Runbook Format
@@ -338,13 +342,13 @@ Toggle states are tracked using marker files in `~/.config/`:
 
 This repository supports generating both Linux (xremap) and macOS (Karabiner-Elements) configs from a single abstract spec:
 
-- Spec: `keyboard-mapping/cross-platform-bindings.yml`
-- Generator: `scripts/generate-bindings.sh` (requires `yq` and `jq`)
+- Spec: `src/data/cross-platform-bindings.yml`
+- Generator: `src/methods/generate-bindings.sh` (requires `yq` and `jq`)
 - Outputs:
-  - Linux: `keyboard-mapping/xremap-macos.yml`
-  - macOS: `macos/karabiner-macos.json`
+  - Linux: `dist/xremap-macos.yml`
+  - macOS: `dist/karabiner-macos.json`
 
-On macOS, import the generated `macos/karabiner-macos.json` in Karabiner-Elements → Complex Modifications.
+On macOS, import the generated `dist/karabiner-macos.json` in Karabiner-Elements → Complex Modifications.
 
 ## Contributing
 
@@ -359,12 +363,13 @@ On macOS, import the generated `macos/karabiner-macos.json` in Karabiner-Element
 
 2. **Create toggle script** in appropriate directory
 
-   - `keyboard-mapping/` for physical key changes
-   - `gnome-shortcuts/` for shortcut configurations
+   - `src/interface/xmodmap/` for physical key changes
+   - `src/interface/gsettings/` for shortcut configurations
+   - `src/interface/xremap/` for universal remapping
    - Follow standard toggle pattern (on/off/toggle/status)
    - Use state files in `~/.config/`
 
-3. **Update master script** (`shortcuts.sh`)
+3. **Update master script** (`scripts/shortcuts.sh`)
 
    - Add to `TOGGLES` associative array
    - Test with list/apply/toggle commands

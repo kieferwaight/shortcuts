@@ -4,16 +4,16 @@
 
 set -e
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 # Available toggles
 declare -A TOGGLES=(
-    ["swap-alt-super"]="keyboard-mapping/swap-left-alt-super.sh"
-    ["disable-super"]="gnome-shortcuts/disable-super-shortcuts.sh"
-    ["super-tab"]="gnome-shortcuts/super-tab-switching.sh"
-    ["caps-to-control"]="keyboard-mapping/caps-to-control.sh"
-    ["super-cmd-q"]="gnome-shortcuts/super-cmd-q-quit.sh"
-    ["macos-bindings"]="keyboard-mapping/universal-macos-bindings.sh"
+    ["swap-alt-super"]="src/interface/xmodmap/swap-left-alt-super.sh"
+    ["disable-super"]="src/interface/gsettings/disable-super-shortcuts.sh"
+    ["super-tab"]="src/interface/gsettings/super-tab-switching.sh"
+    ["caps-to-control"]="src/interface/xmodmap/caps-to-control.sh"
+    ["super-cmd-q"]="src/interface/gsettings/super-cmd-q-quit.sh"
+    ["macos-bindings"]="src/interface/xremap/universal-macos-bindings.sh"
 )
 
 show_help() {
